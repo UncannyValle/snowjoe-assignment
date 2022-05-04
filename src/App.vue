@@ -5,7 +5,6 @@
     </header>
     <main>
       <h1 class="quiz-title">Quiz 1 - HTML / CSS / JS Practice</h1>
-      <!-- v-if="store.state.score >= 0" -->
       <ResultsHeader
         v-if="store.state.score >= 0"
         :score="store.state.score"
@@ -62,6 +61,5 @@ main {
 }
 .quiz-title {
   font-weight: 400;
-  padding-bottom: 1rem;
 }
 </style>

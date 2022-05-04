@@ -26,7 +26,11 @@
     </div>
   </div>
 
-  <button type="submit" @click="handleClick">Submit</button>
+  <button class="button" type="submit" @click="handleClick">Submit</button>
+  <p v-if="emptyGuesses" class="error-message">
+    Answer all questions before submitting. Unanswered questiosna re displayed
+    in yellow.
+  </p>
 </template>
 
 <script>
@@ -42,6 +46,7 @@ export default {
     const guesses = ref([]);
     const checked = ref([]);
     const score = ref();
+    const emptyGuesses = ref(false);
 
     const checkWrong = (index) => {
       if (checked.value[index] === "empty") {
@@ -62,12 +67,14 @@ export default {
 
     const isCorrect = () => {
       if (guesses.value.includes(undefined) || guesses.value.length === 0) {
+        emptyGuesses.value = true;
         checked.value = answers.map((answer, index) => {
           console.log(guesses.value[index]);
           return guesses.value[index] === undefined ? "empty" : null;
         });
       } else {
         score.value = 0;
+        emptyGuesses.value = false;
         checked.value = answers.map((value, index) => {
           if (guesses.value[index] === undefined) {
             return "empty";
@@ -80,15 +87,17 @@ export default {
       checked.value.forEach((x) =>
         x === "right" ? (score.value += 10) : null
       );
-      // console.log(checked.value);
     };
 
+    console.log(emptyGuesses.value);
     const handleClick = () => {
       isCorrect();
       store.methods.scoreUpdate(score);
+      console.log(checked.value, emptyGuesses.value);
     };
     return {
       guesses,
+      emptyGuesses,
       isCorrect,
       answers,
       handleClick,
@@ -106,7 +115,7 @@ export default {
   border-radius: 0.5rem;
   -webkit-box-shadow: 0px 1px 7px -3px #000000;
   box-shadow: 0px 1px 7px -3px #000000;
-  margin-bottom: 2rem;
+  margin-top: 2rem;
 
   label {
     padding: 0 1rem;
@@ -137,5 +146,18 @@ export default {
   background-color: rgb(48, 194, 48);
   border: 3px solid rgb(0, 107, 0);
   color: #ffffff;
+}
+.button {
+  display: block;
+  padding: 0.5rem 1rem;
+  margin: 1.5rem auto;
+  color: white;
+  border: solid black 2px;
+  border-radius: 0.25rem;
+  background-color: green;
+}
+.error-message {
+  color: red;
+  text-align: center;
 }
 </style>
