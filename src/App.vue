@@ -14,14 +14,14 @@
 <script>
 import QuestionCard from "./components/QuestionCard.vue";
 import questions from "../questions.json";
+import { ref } from "@vue/reactivity";
 
 export default {
   name: "App",
   components: { QuestionCard },
-  data() {
-    return {
-      cards: questions,
-    };
+  setup() {
+    const cards = ref(questions);
+    return { cards };
   },
 };
 </script>

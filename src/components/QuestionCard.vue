@@ -1,58 +1,54 @@
 <template>
-  <form @submit="console.log(picked)">
-    <div class="card" v-for="card in cards" :key="card.id">
-      <h3 class="question">{{ card.id }}. {{ card.question }}</h3>
-      <div class="options">
-        <div class="answer">
-          <input
-            type="radio"
-            value="A"
-            :name="`choices-${card.id}`"
-            v-model="pickedA"
-          />
-          <label for="A">{{ card.options[0] }}</label>
-        </div>
-        <div class="answer">
-          <input
-            type="radio"
-            value="B"
-            :name="`choices-${card.id}`"
-            v-model="picked"
-          />
-          <label for="B">{{ card.options[1] }}</label>
-        </div>
-        <div class="answer">
-          <input
-            type="radio"
-            value="C"
-            :name="`choices-${card.id}`"
-            v-model="picked"
-          />
-          <label for="C">{{ card.options[2] }}</label>
-        </div>
-        <div class="answer">
-          <input
-            type="radio"
-            value="D"
-            :name="`choices-${card.id}`"
-            v-model="picked"
-          />
-          <label for="D">{{ card.options[3] }}</label>
-        </div>
+  <div class="card"  v-for="card in cards" :key="card.id">
+    <h3 class="question">{{ card.id }}. {{ card.question }}</h3>
+    <div class="options">
+
+      <div class="answer" :class="checkWrong(1)">
+        <input type="radio" value="a" v-model="guesses[card.id]" />
+        <label for="a">{{ card.options[0] }}</label>
+      </div>
+      <div class="answer" :class="isRight">
+        <input type="radio" value="b" v-model="guesses[card.id]" />
+        <label for="b">{{ card.options[1] }}</label>
+      </div>
+      <div class="answer" :class="isRight">
+        <input type="radio" value="c" v-model="guesses[card.id]" />
+        <label for="c">{{ card.options[2] }}</label>
+      </div>
+      <div class="answer" :class="isRight">
+        <input type="radio" value="d" v-model="guesses[card.id]" />
+        <label for="d">{{ card.options[3] }}</label>
       </div>
     </div>
+  </div>
 
-    <button type="submit">Submit</button>
-  </form>
+  <button type="submit" @click="handleClick">Submit</button>
 </template>
 
 <script>
+import { ref, computed } from "vue";
+
 export default {
   props: {
     cards: Array,
   },
-  data() {
-    return { picked: "", pickedA: "a" };
+  setup(props) {
+    const answers = props.cards.map((x) => x.answer);
+    const guesses = ref([]);
+
+    const isCorrect = computed(() => {
+      return answers.map((value, index) => {
+        if (guesses.value[index + 1] === undefined) {
+          return "empty";
+        } else if (value === guesses.value[index + 1]) {
+          return true;
+        } else return false;
+      });
+    });
+    const handleClick = () => console.log(answers, guesses.value, isCorrect.value);
+
+
+    return { guesses, isCorrect, answers, handleClick };
   },
 };
 </script>
@@ -79,5 +75,8 @@ export default {
   .answer {
     padding-bottom: 0.5rem;
   }
+}
+.right {
+  border: red;
 }
 </style>

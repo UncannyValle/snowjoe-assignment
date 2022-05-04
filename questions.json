@@ -2,7 +2,7 @@
   {
     "id": 1,
     "question": "Javascript is an _______ language?",
-    "answer": "A",
+    "answer": "a",
     "options": [
       "Object-Oriented",
       "Object-Based",
@@ -13,13 +13,13 @@
   {
     "id": 2,
     "question": "Which of the following keywords is used to define a variable in Javascript?",
-    "answer": "C",
+    "answer": "c",
     "options": ["var", "let", "Both A and B", "None of the above"]
   },
   {
     "id": 3,
     "question": "Which of the following methods is used to access HTML alements using Javascript?",
-    "answer": "C",
+    "answer": "c",
     "options": [
       "getElementById()",
       "getElementByClassName()",
