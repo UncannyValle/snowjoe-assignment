@@ -5,7 +5,12 @@
     </header>
     <main>
       <h1 class="quiz-title">Quiz 1 - HTML / CSS / JS Practice</h1>
-      <!-- <div v-if="guesses.length > 0">Results</div> -->
+      <!-- v-if="store.state.score >= 0" -->
+      <ResultsHeader
+        v-if="store.state.score >= 0"
+        :score="store.state.score"
+        :length="cards.length"
+      />
       <QuestionCard :cards="cards" />
     </main>
   </div>
@@ -13,17 +18,17 @@
 
 <script>
 import QuestionCard from "./components/QuestionCard.vue";
+import ResultsHeader from "./components/ResultsHeader.vue";
 import questions from "../questions.json";
 import { ref } from "@vue/reactivity";
+import store from "./store/index";
 
 export default {
   name: "App",
-  components: { QuestionCard },
+  components: { QuestionCard, ResultsHeader },
   setup() {
     const cards = ref(questions);
-    
-    
-    return { cards };
+    return { cards, store };
   },
 };
 </script>

@@ -31,6 +31,7 @@
 
 <script>
 import { ref } from "vue";
+import store from "../store/index";
 
 export default {
   props: {
@@ -40,11 +41,16 @@ export default {
     const answers = props.cards.map((card) => card.answer);
     const guesses = ref([]);
     const checked = ref([]);
+    const score = ref();
 
     const checkWrong = (index) => {
+      if (checked.value[index] === "empty") {
+        return "empty";
+      }
       if (checked.value[index] === "right") {
         return "right";
-      } else if (checked.value[index] === "wrong") {
+      }
+      if (checked.value[index] === "wrong") {
         return "wrong";
       }
     };
@@ -55,15 +61,32 @@ export default {
     };
 
     const isCorrect = () => {
-      checked.value = answers.map((value, index) => {
-        if (guesses.value[index] === undefined) {
-          return "empty";
-        } else if (value === guesses.value[index]) {
-          return "right";
-        } else return "wrong";
-      });
+      if (guesses.value.includes(undefined) || guesses.value.length === 0) {
+        checked.value = answers.map((answer, index) => {
+          console.log(guesses.value[index]);
+          return guesses.value[index] === undefined ? "empty" : null;
+        });
+      } else {
+        score.value = 0;
+        checked.value = answers.map((value, index) => {
+          if (guesses.value[index] === undefined) {
+            return "empty";
+          } else if (value === guesses.value[index]) {
+            return "right";
+          } else return "wrong";
+        });
+      }
+
+      checked.value.forEach((x) =>
+        x === "right" ? (score.value += 10) : null
+      );
+      // console.log(checked.value);
     };
-    const handleClick = () => isCorrect();
+
+    const handleClick = () => {
+      isCorrect();
+      store.methods.scoreUpdate(score);
+    };
     return {
       guesses,
       isCorrect,
@@ -71,6 +94,7 @@ export default {
       handleClick,
       checkWrong,
       wrongAnswer,
+      score,
     };
   },
 };
@@ -105,7 +129,9 @@ export default {
 }
 .right {
   border: green 2px solid;
-  border-radius: 2px solid;
+}
+.empty {
+  border: yellow 2px solid;
 }
 .right-answer {
   background-color: rgb(48, 194, 48);
