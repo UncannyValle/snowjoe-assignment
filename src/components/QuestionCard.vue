@@ -1,22 +1,26 @@
 <template>
-  <div class="card"  v-for="card in cards" :key="card.id">
+  <div
+    class="card"
+    v-for="(card, index) in cards"
+    :key="card.id"
+    :class="checkWrong(index)"
+  >
     <h3 class="question">{{ card.id }}. {{ card.question }}</h3>
     <div class="options">
-
-      <div class="answer" :class="checkWrong(1)">
-        <input type="radio" value="a" v-model="guesses[card.id]" />
+      <div class="answer" :class="wrongAnswer('a', index)">
+        <input type="radio" value="a" v-model="guesses[index]" />
         <label for="a">{{ card.options[0] }}</label>
       </div>
-      <div class="answer" :class="isRight">
-        <input type="radio" value="b" v-model="guesses[card.id]" />
+      <div class="answer" :class="wrongAnswer('b', index)">
+        <input type="radio" value="b" v-model="guesses[index]" />
         <label for="b">{{ card.options[1] }}</label>
       </div>
-      <div class="answer" :class="isRight">
-        <input type="radio" value="c" v-model="guesses[card.id]" />
+      <div class="answer" :class="wrongAnswer('c', index)">
+        <input type="radio" value="c" v-model="guesses[index]" />
         <label for="c">{{ card.options[2] }}</label>
       </div>
-      <div class="answer" :class="isRight">
-        <input type="radio" value="d" v-model="guesses[card.id]" />
+      <div class="answer" :class="wrongAnswer('d', index)">
+        <input type="radio" value="d" v-model="guesses[index]" />
         <label for="d">{{ card.options[3] }}</label>
       </div>
     </div>
@@ -26,29 +30,48 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
+import { ref } from "vue";
 
 export default {
   props: {
     cards: Array,
   },
   setup(props) {
-    const answers = props.cards.map((x) => x.answer);
+    const answers = props.cards.map((card) => card.answer);
     const guesses = ref([]);
+    const checked = ref([]);
 
-    const isCorrect = computed(() => {
-      return answers.map((value, index) => {
-        if (guesses.value[index + 1] === undefined) {
+    const checkWrong = (index) => {
+      if (checked.value[index] === "right") {
+        return "right";
+      } else if (checked.value[index] === "wrong") {
+        return "wrong";
+      }
+    };
+    const wrongAnswer = (value, index) => {
+      if (checked.value[index] === "wrong" && value === answers[index]) {
+        return "right-answer";
+      }
+    };
+
+    const isCorrect = () => {
+      checked.value = answers.map((value, index) => {
+        if (guesses.value[index] === undefined) {
           return "empty";
-        } else if (value === guesses.value[index + 1]) {
-          return true;
-        } else return false;
+        } else if (value === guesses.value[index]) {
+          return "right";
+        } else return "wrong";
       });
-    });
-    const handleClick = () => console.log(answers, guesses.value, isCorrect.value);
-
-
-    return { guesses, isCorrect, answers, handleClick };
+    };
+    const handleClick = () => isCorrect();
+    return {
+      guesses,
+      isCorrect,
+      answers,
+      handleClick,
+      checkWrong,
+      wrongAnswer,
+    };
   },
 };
 </script>
@@ -73,10 +96,20 @@ export default {
 .options {
   padding: 0 1rem;
   .answer {
-    padding-bottom: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
   }
 }
+.wrong {
+  border: red 2px solid;
+}
 .right {
-  border: red;
+  border: green 2px solid;
+  border-radius: 2px solid;
+}
+.right-answer {
+  background-color: rgb(48, 194, 48);
+  border: 3px solid rgb(0, 107, 0);
+  color: #ffffff;
 }
 </style>

@@ -5,7 +5,7 @@
     </header>
     <main>
       <h1 class="quiz-title">Quiz 1 - HTML / CSS / JS Practice</h1>
-
+      <!-- <div v-if="guesses.length > 0">Results</div> -->
       <QuestionCard :cards="cards" />
     </main>
   </div>
@@ -21,6 +21,8 @@ export default {
   components: { QuestionCard },
   setup() {
     const cards = ref(questions);
+    
+    
     return { cards };
   },
 };
