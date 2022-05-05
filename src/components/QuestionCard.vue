@@ -24,10 +24,18 @@
         <label for="d">{{ card.options[3] }}</label>
       </div>
     </div>
-    <p v-if="checkWrong(index) === 'wrong'" class="warning" :class="checkWrong(index)">
+    <p
+      v-if="checkWrong(index) === 'wrong'"
+      class="warning"
+      :class="checkWrong(index)"
+    >
       Wrong
     </p>
-    <p v-if="checkWrong(index) === 'right'" class="warning" :class="checkWrong(index)">
+    <p
+      v-if="checkWrong(index) === 'right'"
+      class="warning"
+      :class="checkWrong(index)"
+    >
       Correct
     </p>
   </div>
@@ -115,7 +123,7 @@ export default {
 
 <style lang="scss" scoped>
 .card {
-  padding: 1rem 1.5rem;
+  padding: 1rem 2rem;
   border-radius: 0.5rem;
   -webkit-box-shadow: 0px 1px 7px -3px #000000;
   box-shadow: 0px 1px 7px -3px #000000;
@@ -174,5 +182,19 @@ export default {
 .error-message {
   color: red;
   text-align: center;
+}
+@media (max-width: 768px) {
+  .options {
+    padding: 0;
+    .answer {
+      padding: 0.5rem 0;
+    }
+  }
+}
+@media (max-width: 512px) {
+  .card {
+    padding: 1.5rem;
+    margin-top: 1rem;
+  }
 }
 </style>

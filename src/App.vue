@@ -62,4 +62,15 @@ main {
 .quiz-title {
   font-weight: 400;
 }
+@media (max-width: 768px) {
+  .quiz-title {
+    font-size: 1.25rem;
+    padding: 0 2rem;
+  }
+}
+@media (max-width: 512px) {
+  .quiz-title {
+    padding: 0;
+  }
+}
 </style>
