@@ -1,13 +1,13 @@
 [
   {
     "id": 1,
-    "question": "Javascript is an _______ language?",
-    "answer": "a",
+    "question": "Which of the following statement best define Vue.js?",
+    "answer": "b",
     "options": [
-      "Object-Oriented",
-      "Object-Based",
-      "Prodecdural",
-      "None of the above"
+      "Vue.js is an open-source JavaScript library that is used for developing user interfaces.",
+      "Vue.js is an open-source front-end JavaScript framework used for developing user interfaces.",
+      "Vue.js is an open-source, cross-platform, JavaScript run-time situation that performs the JavaScript program outside a web browser.",
+      "Vue.js is a JavaScript library constructed to facilitate HTML DOM tree traversal and administration, event handling, CSS activity, and Ajax."
     ]
   },
   {
@@ -26,5 +26,11 @@
       "Both A and B",
       "None of the above"
     ]
+  },
+  {
+    "id": 4,
+    "question": "Which of the following data binding interpolation is also known as \"Mustache\" syntax?",
+    "answer": "c",
+    "options": ["v-on", "v-model", "{{}}", "[]"]
   }
 ]

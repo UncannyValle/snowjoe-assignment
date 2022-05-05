@@ -143,6 +143,8 @@ export default {
   .answer {
     padding: 0.5rem;
     border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
   }
 }
 .warning {
