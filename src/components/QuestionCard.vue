@@ -24,6 +24,12 @@
         <label for="d">{{ card.options[3] }}</label>
       </div>
     </div>
+    <p v-if="checkWrong(index) === 'wrong'" class="warning" :class="checkWrong(index)">
+      Wrong
+    </p>
+    <p v-if="checkWrong(index) === 'right'" class="warning" :class="checkWrong(index)">
+      Correct
+    </p>
   </div>
 
   <button class="button" type="submit" @click="handleClick">Submit</button>
@@ -43,7 +49,7 @@ export default {
   },
   setup(props) {
     const answers = props.cards.map((card) => card.answer);
-    const guesses = ref([]);
+    const guesses = ref(Array(answers.length).fill("empty"));
     const checked = ref([]);
     const score = ref();
     const emptyGuesses = ref(false);
@@ -66,11 +72,10 @@ export default {
     };
 
     const isCorrect = () => {
-      if (guesses.value.includes(undefined) || guesses.value.length === 0) {
+      if (guesses.value.includes("empty")) {
         emptyGuesses.value = true;
         checked.value = answers.map((answer, index) => {
-          console.log(guesses.value[index]);
-          return guesses.value[index] === undefined ? "empty" : null;
+          return guesses.value[index] === "empty" ? "empty" : null;
         });
       } else {
         score.value = 0;
@@ -89,11 +94,10 @@ export default {
       );
     };
 
-    console.log(emptyGuesses.value);
     const handleClick = () => {
       isCorrect();
       store.methods.scoreUpdate(score);
-      console.log(checked.value, emptyGuesses.value);
+      console.log(guesses.value, emptyGuesses.value);
     };
     return {
       guesses,
@@ -133,11 +137,22 @@ export default {
     border-radius: 0.5rem;
   }
 }
+.warning {
+  text-align: right;
+}
 .wrong {
   border: red 2px solid;
+  &.warning {
+    color: red;
+    border: none;
+  }
 }
 .right {
   border: green 2px solid;
+  &.warning {
+    color: green;
+    border: none;
+  }
 }
 .empty {
   border: yellow 2px solid;
