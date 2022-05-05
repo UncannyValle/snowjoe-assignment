@@ -42,7 +42,7 @@
 
   <button class="button" type="submit" @click="handleClick">Submit</button>
   <p v-if="emptyGuesses" class="error-message">
-    Answer all questions before submitting. Unanswered questiosna re displayed
+    Answer all questions before submitting. Unanswered questiosn are displayed
     in yellow.
   </p>
 </template>
